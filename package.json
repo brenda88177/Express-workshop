@@ -4,6 +4,7 @@
   "description": "An API REST USING EXPRESS.JS",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -16,5 +17,16 @@
   "license": "ISC",
   "dependencies": {
     "express": "^5.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brenda88177/Express-workshop.git"
+  },
+  "bugs": {
+    "url": "https://github.com/brenda88177/Express-workshop/issues"
+  },
+  "homepage": "https://github.com/brenda88177/Express-workshop#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
   }
 }
