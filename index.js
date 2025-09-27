@@ -1,53 +1,55 @@
-//git add .
-//git commit -m "Tu mensaje descriptivo"
-//git push origin main
-
-
-const express = require ('express');
+const express = require('express');
 const app = express();
-const {pokemon} = require ('./pokedex.json');
+const { pokemon } = require('./pokedex.json'); // tu JSON de Pokémon
+const bodyParser= require('body-parser');
 
-console.log("HOLA MUNDO");
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
 
-app.get("/", (req,res,next) =>{
-    res.status(200);
-    res.send("bienvenido al pokedex");
+console.log("Servidor iniciado...");
+
+// Ruta de bienvenida
+app.get("/", (req, res) => {
+    res.status(200).send("Bienvenido al Pokedex");
+});
+
+app.post("/pokemon", (req, res, next)=>{
+    return res.status(200).send(req.body);
+
+});
+// Ruta para obtener todos los Pokémon
+app.get("/pokemon", (req, res) => {
+    res.status(200).send(pokemon);
+});
+
+// Ruta para obtener un Pokémon por ID
+app.get("/pokemon/:id", (req, res) => {
+    const id = parseInt(req.params.id); // convertir a número
+    if (id >= 1 && id <= 151) {
+        return res.status(200).send(pokemon[id - 1]);
+    } else {
+        return res.status(404).send({ error: "Pokémon no encontrado" });
+    }
+});
+
+// Ruta para obtener un Pokémon por nombre
+app.get("/pokemon/name/:name", (req, res) => {
+    
+    //OPERADOR TERNARIO: condición ? valor si es verdadero :  valor si es falso
+    const name = req.params.name.toUpperCase();
+
+    const pk = pokemon.filter(p => p.name.toUpperCase() === name);
+
+    if(pk.length > 0) { // corregido de 'lenght' a 'length'
+        return res.status(200).send(pk);
+    } else {
+        return res.status(404).send({error: "Pokémon no encontrado"});
+    }
 });
 
 
-app.get('/pokemon/:id',(req,res,next)=>{
-   const id=req.params.id-1;
-    if(id >= 0 && id<151){
-         res.status(200);
-    res.send(pokemon[req.params.id-1]);
-    }
-    else{
-        res.status(404);
-        res.send("POKEMON NO ENCONTRADO");
-    }
-    });
-
-app.get("/:pokemon", (req,res,next)=>{
-    
-    res.status(200);
-    res.send(pokemon);
-
-});
-
-app.get('/:pokemon/:name',(req,res,next) => {
-    const name= req.params.name;
-    for(i=0; i<pokemon.length; i++){
-        if(pokemon[i].name == name){
-            res.status(200).send(pokemon[i]);
-        }
-        
-    }
-    
-        res.status(404);
-        res.send("POKEMON NO ENCONTRADO");
-    
-} );
-
-app.listen(process.env.PORT || 3000, () => {
-    console.log("server is running...");
+// Iniciar servidor
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
