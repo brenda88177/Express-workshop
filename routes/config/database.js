@@ -1,0 +1,14 @@
+
+const mysql = require ('mysql');
+const util = require('util');
+
+const pool = mysql.createPool({
+    connectionLimit: 10,
+    host:'localhost',
+    password: '',
+    database: 'pokemon'
+
+});
+
+pool.query =util.promesify(pool.query);
+module.exports =pool;
