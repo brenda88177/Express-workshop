@@ -10,5 +10,6 @@ const pool = mysql.createPool({
 
 });
 
-pool.query =util.promesify(pool.query);
+pool.query = util.promisify(pool.query);
+
 module.exports =pool;
