@@ -1,0 +1,21 @@
+
+import tkinter as tk
+
+# Crear la ventana principal
+ventana = tk.Tk()
+ventana.title("Mi primera interfaz")
+ventana.geometry("300x200")  # ancho x alto
+
+# Etiqueta
+etiqueta = tk.Label(ventana, text="¡Hola, Brenda!")
+etiqueta.pack()
+
+# Botón
+def saludar():
+    etiqueta.config(text="¡Hola desde Tkinter!")
+
+boton = tk.Button(ventana, text="Salúdame", command=saludar)
+boton.pack()
+
+# Ejecutar la ventana
+ventana.mainloop()
