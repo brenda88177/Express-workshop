@@ -1,6 +1,6 @@
 const express = require('express');
 const pokemon = express.Router();
-const bd = require('../config/database');
+const db = require('../config/database');
 
 
 
