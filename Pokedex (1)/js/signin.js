@@ -2,18 +2,20 @@
 window.onload = init;
 
 function init(){
+    if(localStorage("token")){
     document.querySelector('.btn-secondary').addEventListener('click',function() {
-        window.location.href = "login.html"
+        window.location.href = "signin.html"
     });
-    document.querySelector('.btn-primary').addEventListener("click", signin);
+    document.querySelector('.btn-primary').addEventListener("click", login);
+    }else{
+        window.location.href ="pokedex.html";
+    }
 }
 
 function signin(){
     var mail = document.getElementById('input-mail').value;
     var pass = document.getElementById('input-password').value;
     var name = document.getElementById('input-name').value;
-
-    console.log(mail,pass);
 
     axios({
         method: 'post',
@@ -24,9 +26,12 @@ function signin(){
             user_name: name
         }
     }).then(function(res){
-        console.lof(res);
-        alert("REGISTRO EXITOSO");
-        window.location.href="login.html"
+        if(res.data.code ===200){
+            localStorage.setItem("token", res.data.message);
+            window.location.href="pokedex.html";
+        }else{
+            alert("USUARIO Y/O INCORRECTOS");
+        }
     }).catch(function(err){
         console.log(err);
     })
